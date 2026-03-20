@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'JetBrains Mono', monospace; background: #07080d; color: #c8d0e0; overflow-x: hidden; }
+::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-thumb { background: #1e2535; }
+
+/* ── Font ── */
+.font-orbitron { font-family: 'Orbitron', monospace; }
+
+/* ── Keyframes ── */
+@keyframes pulse-anim { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.88)} }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes fadeUp { from{transform:translateY(8px);opacity:0} to{transform:translateY(0);opacity:1} }
+@keyframes scan { from{transform:translateY(-100%)} to{transform:translateY(100%)} }
+@keyframes ticker-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes spin-cw-anim { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes pulse-green-anim { 0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.4)} 70%{box-shadow:0 0 0 6px rgba(0,230,118,0)} }
+
+/* ── Utility animations ── */
+.pulse { animation: pulse-anim 2s infinite; }
+.blink { animation: blink 1s infinite; }
+.fade-up { animation: fadeUp .3s ease-out; }
+.spin-cw { animation: spin-cw-anim 2s linear infinite; }
+.pulse-green { animation: pulse-green-anim 1.5s infinite; }
+
+/* ── Phone shell (original small demo frame) ── */
+.phone-shell {
+  width: 175px; height: 340px;
+  border-radius: 24px;
+  border: 6px solid #1a1d2e;
+  position: relative; overflow: hidden;
+  background: #0a0b12;
+  box-shadow: 0 0 0 1px #252840, inset 0 0 20px rgba(0,0,0,.6), 0 20px 60px rgba(0,0,0,.8);
+}
+.phone-notch {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 16px;
+  background: #1a1d2e; border-radius: 0 0 10px 10px; z-index: 10;
+}
+.phone-scan {
+  position: absolute; inset: 0; z-index: 5; pointer-events: none; overflow: hidden;
+}
+.phone-scan::after {
+  content: ''; position: absolute; left: 0; right: 0; height: 40%;
+  background: linear-gradient(transparent, rgba(100,120,255,.03), transparent);
+  animation: scan 3s linear infinite;
+}
+
+/* ── Phone screen (inner content, fills the large phone shells in App.tsx) ── */
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/* ── Live indicator ── */
+.live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #00e676;
+  display: inline-block;
+  flex-shrink: 0;
+  animation: pulse-anim 1.5s infinite;
+}
+
+.live-pill {
+  display: inline-flex; align-items: center; gap: 3px;
+  background: rgba(0,230,118,.12);
+  border: 1px solid rgba(0,230,118,.3);
+  color: #00e676;
+  font-size: 8px; font-weight: 700;
+  padding: 2px 6px; border-radius: 4px;
+  letter-spacing: .06em;
+}
+
+/* ── Ticker ── */
+.ticker-wrap { overflow: hidden; white-space: nowrap; }
+.ticker {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ticker-scroll 40s linear infinite;
+}
+
+/* ── Tab bar ── */
+.tab-bar {
+  border-top: 1px solid rgba(255,255,255,.06);
+  background: #080b10;
+  flex-shrink: 0;
+}
+
+/* ── Bet card ── */
+.bet-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+/* ── Odd buttons ── */
+.odd-btn {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 8px;
+  padding: 8px 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: all .15s;
+  font-family: inherit;
+}
+.odd-btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.15); }
+.odd-btn.selected { background: rgba(0,200,83,.12); border-color: rgba(0,200,83,.4); }
+.odd-btn.up { border-color: rgba(0,230,118,.2); }
+.odd-btn.down { border-color: rgba(255,82,82,.2); }
+
+/* ── Agent rows ── */
+.agent-row { transition: background .2s, border-color .2s; }
+.agent-row:hover { filter: brightness(1.08); }
+
+.agent-activity { transition: all .2s; }
+
+.agent-status-dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+}
+.agent-status-dot.active   { background: #00e676; animation: pulse-anim 1.5s infinite; }
+.agent-status-dot.analyzing{ background: #ffab00; animation: pulse-anim 1s infinite; }
+.agent-status-dot.placing  { background: #40c4ff; animation: pulse-anim .7s infinite; }
+.agent-status-dot.idle     { background: #37474f; }
+.agent-status-dot.error    { background: #ff5252; }
+
+/* ── Panels (dashboard view) ── */
+.panel { background: #0d0f1a; border: 1px solid #1a1f35; border-radius: 8px; }
+.panel-header { background: #0a0c16; border-bottom: 1px solid #1a1f35; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; border-radius: 8px 8px 0 0; }
+
+.gate-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 10px; background: #0a0b14; border-radius: 5px; margin-bottom: 4px; }
+
+/* ── Badges ── */
+.badge-fail    { background: rgba(255,60,80,.15); border: 1px solid rgba(255,60,80,.3); color: #ff4060; font-size: 9px; padding: 1px 6px; border-radius: 3px; }
+.badge-pass    { background: rgba(0,255,136,.1); border: 1px solid rgba(0,255,136,.25); color: #00ff88; font-size: 9px; padding: 1px 6px; border-radius: 3px; }
+.badge-blocked { background: rgba(255,60,80,.12); border: 1px solid rgba(255,60,80,.25); color: #ff4060; font-size: 9px; padding: 2px 8px; border-radius: 3px; font-weight: 600; letter-spacing: .04em; }
+.badge-clear   { background: rgba(0,255,136,.1); border: 1px solid rgba(0,255,136,.25); color: #00ff88; font-size: 9px; padding: 2px 8px; border-radius: 3px; }
+.badge-stopped { background: rgba(255,60,80,.15); border: 1px solid rgba(255,60,80,.35); color: #ff4060; font-size: 9px; padding: 2px 8px; border-radius: 3px; font-weight: 700; letter-spacing: .06em; }
+.badge-offline { background: rgba(100,116,139,.1); border: 1px solid rgba(100,116,139,.25); color: #64748b; font-size: 9px; padding: 2px 8px; border-radius: 3px; letter-spacing: .04em; }
+.badge-live    { background: rgba(0,255,136,.12); border: 1px solid rgba(0,255,136,.3); color: #00ff88; font-size: 9px; padding: 2px 8px; border-radius: 3px; font-weight: 700; }
+
+/* ── Buttons ── */
+.btn-start { background: transparent; border: 1px solid rgba(0,255,136,.4); color: #00ff88; font-size: 10px; padding: 5px 14px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: 600; letter-spacing: .04em; transition: all .15s; }
+.btn-start:hover { background: rgba(0,255,136,.1); }
+.btn-stop  { background: transparent; border: 1px solid rgba(255,60,80,.4); color: #ff4060; font-size: 10px; padding: 5px 14px; border-radius: 5px; cursor: pointer; font-family: inherit; font-weight: 600; transition: all .15s; }
+.btn-stop:hover  { background: rgba(255,60,80,.1); }
+
+/* ── Misc ── */
+.decision-ring {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 2px solid #1a1f35;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 20px rgba(0,0,0,.5);
+}
+.nav-tab { font-size: 9px; color: #2d3748; cursor: pointer; padding: 2px 6px; border-radius: 3px; transition: all .15s; background: transparent; border: none; font-family: inherit; }
+.nav-tab:hover { color: #60a5fa; }
+.nav-tab.active { color: #60a5fa; background: rgba(96,165,250,.08); }
+.stat-box { background: #090b14; border: 1px solid #141929; border-radius: 6px; padding: 8px 12px; }
