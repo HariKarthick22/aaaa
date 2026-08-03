@@ -60,8 +60,8 @@ that may as well not have happened. Recharts renders performance history.
 ## Quickstart
 
 ```bash
-git clone https://github.com/HariKarthick22/aaaa.git
-cd aaaa
+git clone https://github.com/HariKarthick22/sovereign-agent-dashboard.git
+cd sovereign-agent-dashboard
 npm install
 
 cp .env.example .env        # add your Firebase config
@@ -104,8 +104,6 @@ configured backend.
   the static definitions in `src/data/`.
 - No authentication layer — anyone with the URL sees the dashboard. Do not point it
   at real financial data as it stands.
-- The repository name is a placeholder left over from scaffolding and does not
-  match the project name.
 
 ## License
 
